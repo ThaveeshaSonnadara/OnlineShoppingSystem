@@ -1,10 +1,8 @@
 package org.system;
 
-import java.awt.*;
-
 public class Clothing extends Product{
     private String size;
-    private Color color;
+    private String color;
 
     public Clothing(String productId, String productName, int numAvailItems, double price) {
         super(productId, productName, numAvailItems, price);
@@ -20,12 +18,7 @@ public class Clothing extends Product{
         this.size = size;
     }
 
-    public Clothing(String productId, String productName, int numAvailItems, double price, Color color) {
-        super(productId, productName, numAvailItems, price);
-        this.color = color;
-    }
-
-    public Clothing(String productId, String productName, int numAvailItems, double price, String size, Color color) {
+    public Clothing(String productId, String productName, int numAvailItems, double price, String size, String color) {
         super(productId, productName, numAvailItems, price);
         this.size = size;
         this.color = color;
@@ -39,20 +32,20 @@ public class Clothing extends Product{
         this.size = size;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
     @Override
     public String toString() {
-        return "Clothing{" +
+        return "Clothing {" +
                 super.toString() +
                 ", size='" + size + '\'' +
                 ", color=" + color +
-                '}';
+                " }";
     }
 }

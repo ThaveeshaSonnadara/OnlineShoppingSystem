@@ -3,6 +3,14 @@ package org.system;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("In main");
+        WestminsterShoppingManager sys = new WestminsterShoppingManager();
+        boolean exit = false;
+        while (!exit){
+            try {
+                exit = sys.runMenu();
+            } catch (IllegalStateException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 }

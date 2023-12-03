@@ -49,10 +49,10 @@ public class Electronic extends Product {
 
     @Override
     public String toString() {
-        return "Electronic{" +
+        return "Electronic {" +
                 super.toString() +
                 ", brand='" + this.brand + '\'' +
                 ", warranty=" + this.warranty +
-                '}';
+                " }";
     }
 }
