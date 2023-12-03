@@ -10,6 +10,11 @@ public class Clothing extends Product{
         super(productId, productName, numAvailItems, price);
     }
 
+    @Override
+    public String getProductType() {
+        return "Clothing";
+    }
+
     public Clothing(String productId, String productName, int numAvailItems, double price, String size) {
         super(productId, productName, numAvailItems, price);
         this.size = size;

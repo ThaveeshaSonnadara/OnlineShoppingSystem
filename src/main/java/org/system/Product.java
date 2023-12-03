@@ -48,6 +48,8 @@ public abstract class Product {
         this.price = price;
     }
 
+    public abstract String getProductType();
+
     @Override
     public String toString() {
         return "productId='" + this.productId + '\'' +

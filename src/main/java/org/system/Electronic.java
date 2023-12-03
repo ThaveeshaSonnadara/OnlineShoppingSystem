@@ -26,6 +26,11 @@ public class Electronic extends Product {
         this.warranty = warranty;
     }
 
+    @Override
+    public String getProductType() {
+        return "Electronic";
+    }
+
     public String getBrand() {
         return brand;
     }
