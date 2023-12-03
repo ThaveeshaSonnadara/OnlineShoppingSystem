@@ -5,12 +5,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class WestminsterShoppingManager implements ShoppingManager {
     private final Scanner sc = new Scanner(System.in);
     public File saveFile =
-            new File("src/main/resources/previousSessionData.txt");
+            new File("previousSessionData.txt");
     private List<Product> productList;
 
     public WestminsterShoppingManager() {
@@ -25,15 +26,17 @@ public class WestminsterShoppingManager implements ShoppingManager {
         System.out.println();
         System.out.println("*********************************************");
         System.out.println("* Welcome to the Shopping Management System *");
+        System.out.println("*********************************************");
     }
 
     private static void printMenu() {
-        System.out.println("\n****************  Main Menu  ****************");
+        System.out.println("****************  Main Menu  ****************");
         System.out.println("*          1. Add       Product             *");
         System.out.println("*          2. Update    Product             *");
         System.out.println("*          3. Show Product List             *");
         System.out.println("*          4. Delete    Product             *");
-        System.out.println("*          5. Exit                          *");
+        System.out.println("*          5. Save         Data             *");
+        System.out.println("*          6. Exit                          *");
         System.out.println("****************  Main Menu  ****************");
 
         System.out.println("Enter the option: ");
@@ -148,24 +151,46 @@ public class WestminsterShoppingManager implements ShoppingManager {
                 boolean isListEmpty = displayProductList();
 
                 if (isListEmpty) { // managing some spaces in the console
+                    System.out.println(" ");
                     System.out.println("Enter the Product Id: ");
                     String productId = sc.nextLine();
 
                     Product productToDelete = selectProductToDelete(productId);
                     if (productToDelete != null) {
                         this.productList.remove(productToDelete);
-                        System.out.println(productToDelete.getProductType() + "Product with id of " + productId +
+                        System.out.println('<' + productToDelete.getProductType() + '>' + " Product with the id of "
+                                + '\'' + productId + '\'' +
                                 " has been deleted from the system!");
                         System.out.println("There are total number of " + this.calcNumProducts() +
                                 " products left in the system.");
                     } else {
                         System.out.println("There is no such product with the id of " + productId + " in the system.");
-                        System.out.println("There are total number of " + this.calcNumProducts() +
+                        System.out.println("There are total number of " + '<' +this.calcNumProducts() + '>' +
                                 " products left in the system.");
                     }
                 }
                 break;
             case 5:
+                System.out.println("Confirm to save the current session data(y/n): ");
+                String confirmation = sc.next();
+                if (confirmation.equalsIgnoreCase("yes") ||
+                        confirmation.equalsIgnoreCase("y")) {
+
+                    System.out.println("Your data will be saved at " + saveFile.getPath());
+                    try {
+                        saveData();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                } else if (confirmation.equalsIgnoreCase("no") ||
+                        confirmation.equalsIgnoreCase("n")) {
+
+                    System.out.println("Your data will remain unsaved.");
+                } else {
+                    System.out.println("Invalid option!");
+                }
+                break;
+            case 6:
                 exit = true;
                 break;
             default:
@@ -202,9 +227,9 @@ public class WestminsterShoppingManager implements ShoppingManager {
                         brand, warranty);
             case 2:
                 System.out.println("Enter the size of the cloth: ");
-                String size = sc.nextLine();
+                String size = sc.nextLine().toUpperCase();
                 System.out.println("Enter the color of the cloth: ");
-                String color = sc.nextLine().toLowerCase();
+                String color = sc.nextLine().toUpperCase();
 
                 return new Clothing(productId, productName, numAvailItems, price,
                         size, color);
@@ -228,20 +253,16 @@ public class WestminsterShoppingManager implements ShoppingManager {
     @Override
     public void saveData() throws IOException {
 
-        FileOutputStream fos1 = new FileOutputStream(saveFile);
-        ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
+        FileOutputStream fos = new FileOutputStream(saveFile);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
 
         for (Product product : this.productList) {
-            oos1.writeObject(product);
+            oos.writeObject(product);
         }
 
-        oos1.flush();
-        fos1.close();
-        oos1.close();
-
-        // clearing the array list after saving the data to the array.
-        // In this way files are the only data source for the application.
-        productList.clear();
+        oos.flush();
+        fos.close();
+        oos.close();
     }
 
     @Override
@@ -250,20 +271,20 @@ public class WestminsterShoppingManager implements ShoppingManager {
         // checking if the files are exist, and they have data inside them
         if ((saveFile.exists() && saveFile.length() != 0)) {
 
-            FileInputStream fis1 = new FileInputStream(saveFile);
-            ObjectInputStream ois1 = new ObjectInputStream(fis1);
+            FileInputStream fis = new FileInputStream(saveFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
             for (; ; ) {
                 try {
-                    Product product = (Product) ois1.readObject();
+                    Product product = (Product) ois.readObject();
                     this.productList.add(product);
                 } catch (Exception e) {
                     break;
                 }
             }
 
-            fis1.close();
-            ois1.close();
+            fis.close();
+            ois.close();
         }
     }
 }
