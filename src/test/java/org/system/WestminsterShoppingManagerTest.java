@@ -2,13 +2,13 @@ package org.system;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class WestminsterShoppingManagerTest {
 
+    private final int maxNumProducts = 50;
     Electronic e1 = new Electronic("eOW2138", "Owen", 10, 12000.00,
             "Singer", 2);
     Electronic e2 = new Electronic("eTV2005", "TV", 5, 45000.00,
@@ -19,7 +19,6 @@ class WestminsterShoppingManagerTest {
             "Lenovo");
     Product c1 = new Clothing("cTS1001", "T-Shirt", 25, 4500.00,
             "L", "Cyan");
-    private final int maxNumProducts = 50;
 
     @Test
     void addProduct() {

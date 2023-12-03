@@ -1,8 +1,8 @@
 package org.system;
 
-import java.lang.annotation.Documented;
+import java.io.Serializable;
 
-public class Electronic extends Product {
+public class Electronic extends Product implements Serializable {
     private String brand;
     private int warranty; // refers to warranty period in years
 
@@ -20,7 +20,8 @@ public class Electronic extends Product {
         this.warranty = warranty;
     }
 
-    public Electronic(String productId, String productName, int numAvailItems, double price, String brand, int warranty) {
+    public Electronic(String productId, String productName, int numAvailItems,
+                      double price, String brand, int warranty) {
         super(productId, productName, numAvailItems, price);
         this.brand = brand;
         this.warranty = warranty;

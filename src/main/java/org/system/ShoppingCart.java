@@ -28,8 +28,9 @@ public class ShoppingCart {
 
     public double totalCostCart() {
         double totalCost = 0;
-        for (Product product: this.cart) {
+        for (Product product : this.cart) {
             totalCost += product.getPrice();
-        } return totalCost;
+        }
+        return totalCost;
     }
 }

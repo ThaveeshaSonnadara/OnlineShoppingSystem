@@ -1,16 +1,13 @@
 package org.system;
 
-public class Clothing extends Product{
+import java.io.Serializable;
+
+public class Clothing extends Product implements Serializable {
     private String size;
     private String color;
 
     public Clothing(String productId, String productName, int numAvailItems, double price) {
         super(productId, productName, numAvailItems, price);
-    }
-
-    @Override
-    public String getProductType() {
-        return "Clothing";
     }
 
     public Clothing(String productId, String productName, int numAvailItems, double price, String size) {
@@ -22,6 +19,11 @@ public class Clothing extends Product{
         super(productId, productName, numAvailItems, price);
         this.size = size;
         this.color = color;
+    }
+
+    @Override
+    public String getProductType() {
+        return "Clothing";
     }
 
     public String getSize() {

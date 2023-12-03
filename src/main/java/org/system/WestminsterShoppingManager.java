@@ -6,15 +6,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.util.*;
-import java.util.List;
 
 public class WestminsterShoppingManager implements ShoppingManager {
-    private List<Product> productList;
-
-    public File saveFile =
-            new File("E:\\2nd Year\\OOP\\Coursework - Premier League\\CW - Submission  - Final\\Implementation\\datasource\\saveDataClubs.txt");
-
     private final Scanner sc = new Scanner(System.in);
+    public File saveFile =
+            new File("src/main/resources/previousSessionData.txt");
+    private List<Product> productList;
 
     public WestminsterShoppingManager() {
         productList = new LinkedList<>();
@@ -22,6 +19,24 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     public WestminsterShoppingManager(List<Product> productList) {
         this.productList = productList;
+    }
+
+    private static void printWelcomeMessage() {
+        System.out.println();
+        System.out.println("*********************************************");
+        System.out.println("* Welcome to the Shopping Management System *");
+    }
+
+    private static void printMenu() {
+        System.out.println("\n****************  Main Menu  ****************");
+        System.out.println("*          1. Add       Product             *");
+        System.out.println("*          2. Update    Product             *");
+        System.out.println("*          3. Show Product List             *");
+        System.out.println("*          4. Delete    Product             *");
+        System.out.println("*          5. Exit                          *");
+        System.out.println("****************  Main Menu  ****************");
+
+        System.out.println("Enter the option: ");
     }
 
     public List<Product> getProductList() {
@@ -63,10 +78,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
             System.out.println("\n<System has zero products for now.>");
             return false;
         } else {
-            for (Product product: orderedListByID) {
+            for (Product product : orderedListByID) {
                 System.out.println(index + "." + " " + product.toString());
                 index++;
-            } return true;
+            }
+            return true;
         }
     }
 
@@ -88,36 +104,18 @@ public class WestminsterShoppingManager implements ShoppingManager {
         double userInput;
 
         // This will continue looping until an integer is entered
-        while (true){
+        while (true) {
             try {
                 /* Attempt to read in an integer. If anything else
                  * is entered, it will throw an error.*/
                 userInput = sc.nextDouble();
                 break;
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 sc.nextLine(); // clear buffer
                 System.out.println("Not a number, try again.");
             }
-        } return userInput;
-    }
-
-    private static void printWelcomeMessage() {
-        System.out.println();
-        System.out.println("*********************************************");
-        System.out.println("* Welcome to the Shopping Management System *");
-    }
-
-    private static void printMenu() {
-        System.out.println("\n****************  Main Menu  ****************");
-        System.out.println("*          1. Add       Product             *");
-        System.out.println("*          2. Update    Product             *");
-        System.out.println("*          3. Show Product List             *");
-        System.out.println("*          4. Delete    Product             *");
-        System.out.println("*          5. Exit                          *");
-        System.out.println("****************  Main Menu  ****************");
-
-        System.out.println("Enter the option: ");
+        }
+        return userInput;
     }
 
     @Override
@@ -219,11 +217,12 @@ public class WestminsterShoppingManager implements ShoppingManager {
 
     private @Nullable Product selectProductToDelete(String productId) {
         List<Product> sortedList = orderTheList(this.getProductList());
-        for (Product product: sortedList) {
+        for (Product product : sortedList) {
             if (product.getProductId().equals(productId)) {
                 return product;
             }
-        } return null;
+        }
+        return null;
     }
 
     @Override
@@ -232,7 +231,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         FileOutputStream fos1 = new FileOutputStream(saveFile);
         ObjectOutputStream oos1 = new ObjectOutputStream(fos1);
 
-        for(Product product : productList){
+        for (Product product : this.productList) {
             oos1.writeObject(product);
         }
 
@@ -240,9 +239,11 @@ public class WestminsterShoppingManager implements ShoppingManager {
         fos1.close();
         oos1.close();
 
-        // clearing the array list after saving the data to the array. In this way files are the only data source for the application.
+        // clearing the array list after saving the data to the array.
+        // In this way files are the only data source for the application.
         productList.clear();
     }
+
     @Override
     public void loadData() throws IOException {
 
@@ -255,7 +256,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
             for (; ; ) {
                 try {
                     Product product = (Product) ois1.readObject();
-                    productList.add(product);
+                    this.productList.add(product);
                 } catch (Exception e) {
                     break;
                 }
