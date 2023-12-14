@@ -77,7 +77,7 @@ public class WestminsterShoppingManager implements ShoppingManager {
         List<Product> orderedListByID = orderTheList(this.getProductList());
         int index = 1;
         if (orderedListByID.isEmpty()) {
-            System.out.println("\n<System has zero products for now.>");
+            System.out.println("\n< System has zero products for now. >");
             return false;
         } else {
             for (Product product : orderedListByID) {
